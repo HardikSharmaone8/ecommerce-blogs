@@ -122,10 +122,6 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS =os.path.join(BASE_DIR,'static')
-
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles_build','static')
-
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
@@ -141,3 +137,6 @@ django_heroku.settings(locals())
 MESSAGE_TAGS = {
     messages.SUCCESS : "greenyellow"
 }
+
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
