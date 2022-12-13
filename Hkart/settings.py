@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'shop',
     'blog',
-    'phonenumber_field'
 ]
 
 MIDDLEWARE = [
