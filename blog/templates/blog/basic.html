@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Title{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <style>
+      body{
+        padding:0;
+        margin:0;
+    }
+
+    @keyframes blog_logo{
+    0%{
+        color:white;
+        transform:rotate(0deg)
+        }
+    100%{
+          color:gold;
+          transform:rotate(360deg)
+    }
+    }
+
+  .fa-blog{
+      font-size:30px;
+      color:white;
+      font-weight:bold;
+      animation:blog_logo 3s infinite;
+  }
+    #navigation_header{
+        height:50px;
+        width:100%;
+        background-color:brown;
+        color:white;
+        box-sizing:border-box;
+        padding:5px 20px 0px 30px;
+        margin-bottom:20px;
+        box-shadow:5px 5px 10px black;
+    }
+
+    #navigation_ul{
+        display:flex;
+        list-style:none;
+
+    }
+    .nav-link{
+        font-weight:bold;
+        color:white;
+        margin-left:15px;
+        text-decoration:none;
+    }
+
+    .nav-link:hover{
+        color:gold;
+    }
+    #search_blog_form{
+        margin-top:-10px;
+        width:400px;
+        display:flex;
+    }
+    #search_blog{
+        background-color:brown;
+        color:white;
+        font-weight:bold;
+        border:1px solid white;
+        width:100px;
+        height:32px;
+    }
+    #search_blog:hover{
+        cursor:pointer;
+        background-color:white;
+        color:brown;
+        border:3px solid brown;
+    }
+    .write_search_blog{
+        height:25px;
+        width:90%;
+    }
+    #username_disp{
+        color:gold;
+    }
+    #dropdown{
+        height:auto;
+        width:10%;
+        background-color:rgba(250,250,250,0.8);
+        margin-top:10px;
+        position:absolute;
+        box-sizing:border-box;
+        color:black;
+        font-weight:bold;
+        text-align:center;
+        padding:5px;
+        display:none;
+    }
+    #dropdown_anchor{
+        color:black;
+    }
+    #dropdown_anchor:hover{
+        color:brown;
+    }
+
+
+    #validation{
+        height:37px;
+        width:100%;
+        background-color:rgba(250,0,0,0.5);
+        position:relative;
+        margin-top:-17px;
+        padding:5px 0px 0px 50px;
+        box-sizing:border-box;
+        font-weight:bold;
+        color:black;
+        display:none;
+    }
+    .valid{
+        height:37px;
+        width:100%;
+        background-color:rgba(250,0,0,0.5);
+        position:relative;
+        padding:5px 50px 0px 50px;
+        box-sizing:border-box;
+        font-weight:bold;
+        color:black;
+    }
+
+
+    .fa-square-xmark{
+            float:right;
+            font-size:25px;
+    }
+    .fa-square-xmark:hover{
+        cursor:pointer;
+    }
+    #signup_container{
+        height:600px;
+        width:100%;
+        background-color:rgba(0,0,0,0.9);
+        position:absolute;
+        box-sizing:border-box;
+        padding:55px;
+        box-shadow:10px 10px 10px black;
+        display:none;
+    }
+    #signup{
+        height:450px;
+        width:50%;
+        margin:auto;
+        border:2px solid black;
+        background-color:white;
+        padding:15px;
+    }
+    #signup_heading{
+        margin-top:-10px;
+        width:102%;
+        box-shadow:1px 1px 3px black;
+    }
+    .signup_input{
+        width:100%;
+        height:25px;
+        margin-bottom:10px;
+    }
+    .signup-label{
+        color:brown;
+        font-weight:bold;
+    }
+    #signup_submit{
+        height:35px;
+        width:120px;
+        background-color:brown;
+        border-radius:5px;
+        box-sizing:border-box;
+        padding-top:8px;
+        color:white;
+        font-weight:bold;
+        font-size:22px;
+        text-align:center;
+    }
+    #signup_submit:hover{
+        background-color:white;
+        color:brown;
+        border:3px solid brown;
+        cursor:pointer;
+    }
+
+
+
+       #login_container{
+        height:600px;
+        width:100%;
+        background-color:rgba(0,0,0,0.9);
+        position:absolute;
+        box-sizing:border-box;
+        padding:55px;
+        box-shadow:10px 10px 10px black;
+        display:none;
+    }
+    #login{
+        height:200px;
+        width:40%;
+        margin:auto;
+        margin-top:50px;
+        border:2px solid black;
+        background-color:white;
+        padding:15px;
+    }
+    #login_heading{
+        margin-top:-10px;
+        width:102%;
+        box-shadow:1px 1px 3px black;
+    }
+    .login_input{
+        width:100%;
+        height:25px;
+        margin-bottom:10px;
+    }
+    #login_submit{
+        height:35px;
+        width:120px;
+        background-color:brown;
+        border-radius:5px;
+        box-sizing:border-box;
+        padding-top:8px;
+        color:white;
+        font-weight:bold;
+        font-size:22px;
+        text-align:center;
+    }
+    #login_submit:hover{
+        background-color:white;
+        color:brown;
+        border:3px solid brown;
+        cursor:pointer;
+    }
+    .nav-link:hover{
+        cursor:pointer;
+    }
+
+
+
+{% block css %}  {% endblock %}
+
+    </style>
+</head>
+<body>
+
+<div id="navigation_header">
+
+     <ul id="navigation_ul">
+         <li style="margin:-5px 150px 0px 0px;">
+             <i class="fa-solid fa-blog"></i>
+             <span style="color:white;font-weight:bold;margin:0px 10px 0px 10px;">BLOG</span>
+         </li>
+         <li>
+          <form action="search" method="GET" id="search_blog_form">
+            {% csrf_token %}
+            <input type="text" class="write_search_blog" name="search" placeholder="Search for Blogs,Articals and more" required/>
+            <input type="submit" id="search_blog" value="search" />
+          </form>
+        </li>
+            <li class="nav-item" style="margin-left:60px;">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/shop/item">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/content">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shop/tracker">Tracker</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shop/contacts">Contact</a>
+            </li>
+
+         {% if user.is_authenticated %}
+            <li class="nav-link" id="username_disp" onclick="dropdown()">
+             {{request.user}}<i class="fa-solid fa-caret-down" style="margin-left:5px;"></i>
+                <div id="dropdown">
+                        <a id="dropdown_anchor" href="/blog/logout">logOut</a>
+                </div>
+            </li>
+
+
+            {% else %}
+                <li class="nav-link" class="signup_button" onclick="signup()">signUp</li>
+                <li class="nav-link" class="login_button" onclick="login()">logIn</li>
+         {% endif %}
+     </ul>
+</div>
+
+    <!--signup and login form validation-->
+
+    <div class="validation"></div>
+
+    {% for message in messages %}
+        <div class="valid" style="background-color:{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
+
+    <!--signup page-->
+    <div id="signup_container">
+         <div id="signup">
+             <i class="fa-solid fa-square-xmark"></i>
+            <center> <h1 id="signup_heading">SignUp Here</h1></center>
+             <form id="signup_form" action="/blog/signup" method="post">{% csrf_token %}
+                 <label class="signup-label">User Name</label> <input type="text" id='username' name="username" placeholder="Choose Unique User Name" class="signup_input"  required>
+                 <label class="signup-label">First Name</label> <input type="text" id="firstname" name="firstname" placeholder="First Name"  class="signup_input"  required>
+                 <label class="signup-label">Last Name</label> <input type="text" id="lastname" name="lastname" placeholder="Last Name"  class="signup_input">
+                 <label class="signup-label">Email address</label> <input type="email" name="email" placeholder="Email"  class="signup_input"  required>
+                 <label class="signup-label">Password</label> <input type="password" id="pass" name="password" placeholder="Password"  class="signup_input"  required>
+                 <label class="signup-label">Confirm Password</label> <input type="password" id='cpass' name="confirmpassword" placeholder="Confirm Password"  class="signup_input" required>
+                 <center><input type="submit" value="SignUp" id="signup_submit"></center>
+             </form>
+         </div>
+     </div>
+
+    <!--login page-->
+    <div id="login_container">
+         <div id="login">
+             <i class="fa-solid fa-square-xmark" class="login_xmark"></i>
+             <center> <h1 id="login_heading">LogIn Here</h1></center>
+             <form id="login_form" action="/blog/login" method="post">{% csrf_token %}
+                 <label class="signup-label">Username</label> <input type="username" name="loginusername" placeholder="Username"  class="signup_input" required>
+                 <label class="signup-label">Password</label> <input type="password" name="loginpassword" placeholder="Password"  class="signup_input" required>
+                <center><input type="submit" value="LogIn" id="login_submit"></center>
+             </form>
+         </div>
+     </div>
+
+
+
+
+{% block body %}{% endblock%}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+<!--    display dropdown-->
+
+   function dropdown(){
+        document.querySelector("#dropdown").style.display = "block"
+    }
+
+<!--display signup form-->
+
+   function signup(){
+        document.querySelector("#signup_container").style.display = 'block'
+    }
+    function login(){
+        document.querySelector("#login_container").style.display = 'block'
+    }
+
+    document.querySelector("#signup").children[0].addEventListener("click",()=>{
+        document.querySelector("#signup_container").style.display = "none"
+    })
+
+    document.querySelector("#login").children[0].addEventListener("click",()=>{
+        document.querySelector("#login_container").style.display = "none"
+    })
+
+
+<!--    validation logic-->
+
+function error(err){
+    document.querySelector(".validation").style.display = 'block'
+    document.querySelector(".validation").innerHTML = err
+}
+
+function success(){
+    document.querySelector(".validation").style.display = 'none'
+}
+
+<!--username validation logic-->
+
+document.querySelector("#username").addEventListener("keyup",()=>{
+    username = document.querySelector('#username').value
+
+
+    if(username.length <= 6){
+        error("Username Must Be Greater Than 6 Charactor")
+    }
+     else if(username.search('1') == -1 && username.search('2') == -1 && username.search('3') ==-1 && username.search('4')==-1 && username.search('5')==-1 && username.search('6')==-1 && username.search('7')==-1 && username.search('8') == -1 && username.search('9')==-1 && username.search('0')==-1 ){
+        error("Username Must be Unique user Digits with username")
+    }
+    else if(username.search(" ") >= 0){
+          error("Space not allowed in user name")
+    }else{
+        success()
+    }
+})
+
+<!--firstname validation logic-->
+
+document.querySelector("#firstname").addEventListener("keyup",()=>{
+    username = document.querySelector('#firstname').value
+
+    if(username.length <= 2){
+        error("First NameMust Be Greater Than 2 Charactor")
+    }
+      else if(username.search('1') != -1 || username.search('2')!= -1 || username.search('3')!=-1 || username.search('4')!=-1 || username.search('5')!=-1 || username.search('6')!=-1 || username.search('7')!=-1 || username.search('8')!=-1 || username.search('9')!=-1 || username.search('0')!=-1 ){
+        error("First Name must be charactor")
+    }
+
+    else if(username.search('!') != -1 || username.search('@') != -1 || username.search('#') !=-1 || username.search('%')!=-1 ||  username.search('&')!=-1  || username.search('_')!=-1 || username.search('-')!=-1){
+        error("Special charactors like !,@,#,%,^,&,_,-,are not allowed in First Name ")
+    }
+    else if(username.search(" ") >= 0){
+          error("Space not allowed in First Name")
+    }else{
+        success()
+    }
+})
+
+
+<!--last name validation-->
+
+document.querySelector("#lastname").addEventListener("keyup",()=>{
+    username = document.querySelector('#lastname').value
+
+     if(username.search('1')!= -1 || username.search('2')!= -1 || username.search('3')!=-1 || username.search('4')!=-1 || username.search('5')!=-1 || username.search('6')!=-1 || username.search('7')!=-1 || username.search('8')!=-1 || username.search('9')!=-1 || username.search('0')!=-1 ){
+        error("First Name must be charactor")
+    }
+    else if(username.search('!') != -1 || username.search('@') != -1 || username.search('#') !=-1 || username.search('%')!=-1 ||  username.search('&')!=-1  || username.search('_')!=-1 || username.search('-')!=-1){
+        error("Special charactors like !,@,#,%,^,&,_,-,are not allowed in Last Name ")
+    }
+    else{
+        success()
+    }
+})
+
+
+<!--Password and confirm password logic-->
+
+document.querySelector("#pass").addEventListener("keyup",()=>{
+    username = document.querySelector('#pass').value
+
+    if(username.length <= 6){
+        error("Length of the Password must be greater than 5")
+    }
+    else if(username.search('!') == -1 && username.search('@') == -1 && username.search('#') ==-1 && username.search('%')==-1 &&  username.search('&')==-1 && username.search('_')==-1 && username.search('-')==-1){
+        error("Password must use special charactors like !,@,#,$,%,^,&,*,_,-,| ")
+    }
+    else if(username.search(" ") >= 0){
+          error("Space not allowed in Password")
+    }else{
+        success()
+    }
+})
+
+document.querySelector("#cpass").addEventListener("keyup",()=>{
+    pass= document.querySelector("#pass").value
+    cpass = document.querySelector('#cpass').value
+
+    if(pass != cpass){
+        error("Confirm password must match with Passowrd")
+    }
+    else{
+        success()
+    }
+})
+
+    {% block script %}{% endblock %}
+</script>
+</body>
+</html>

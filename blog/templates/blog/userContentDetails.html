@@ -1,0 +1,295 @@
+{% extends 'blog/basic.html' %}
+
+
+{% block title%}Blog Contents{% endblock %}
+
+{% block css %}
+body{
+    background-color:rgba(0,0,0,0.2)
+}
+
+#contentdetails_container{
+    height:700px;
+    width:90%;
+    margin:auto;
+    margin-top:80px;
+    margin-bottom:100px;
+
+}
+#contentdetails_pic{
+    text-align:center;
+    height:430px;
+    width:400px;
+    float:left;
+    margin-right:20px;
+    margin-bottom:20px;
+}
+.contentdetails_pic_image{
+    height:400px;
+    width:400px;
+}
+#contentdetails_author{
+    color:brown;
+    font-weight:bold;
+}
+#contentdetails_text{
+}
+
+#next_blog_button{
+        height:35px;
+        width:200px;
+        background-color:brown;
+        border-radius:5px;
+        box-sizing:border-box;
+        padding-top:8px;
+        color:white;
+        font-weight:bold;
+}
+#comment_container{
+    height:auto;
+    border:5px solid brown;
+    background-color:brown;
+    width:100%;
+    padding:50px;
+    box-sizing:border-box;
+}
+#post_comment_container{
+    width:80%;
+    margin:auto;
+    padding-top:5px;
+}
+#comment_text{
+    width:80%;
+    height:40px;
+    background-color:rgba(0,0,0,0.2);
+    border-radius:5px;
+    margin-left:3%;
+    color:white;
+}
+#comment_image{
+    height:40px;
+    width:40px;
+    border-radius:30px;
+    border:1px solid black;
+}
+#post_comment{
+    height:45px;
+    width:70px;
+    background-color:white;
+    color:brown;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+    box-sizing:border-box;
+    padding-top:12px;
+    margin-left:10px;
+    border-radius:5px;
+}
+#post_comment:hover{
+    color:brown;
+    background-color:white;
+    border:3px solid brown;
+    cursor:pointer;
+    font-weight:bold;
+}
+.show_comment{
+    height:auto;
+    width:80%;
+    margin:auto;
+    margin-top:20px;
+    box-shadow:5px 5px 10px black;
+    background-color:white;
+    box-sizing:border-box;
+    padding:10px;
+    display:flex;
+}
+#user-comment-div,.user-comment-image{
+    height:50px;
+    width:50px;
+    border-radius:30px;
+    border:1px solid black;
+    margin-right:20px;
+}
+
+.fa-comment{
+    font-size:20px;
+}
+.reply_button:hover{
+    cursor:pointer;
+    color:brown;
+}
+.reply_form{
+    height:50px;
+    width:700px;
+    display:none;
+    margin-bottom:20px;
+}
+.reply_comment_text{
+    width:100%;
+    height:20px;
+    background-color:white;
+    border-radius:5px;
+    margin-left:3%;
+    color:black;
+}
+
+.user-reply-image,.user-reply-div{
+    height:25px;
+    width:25px;
+    border-radius:30px;
+    border:1px solid black;
+    margin-right:20px;
+}
+.post_reply{
+    float:right;
+    height:25px;
+    width:100px;
+
+}
+#show_reply_container{
+    height:auto;
+    width:700px;
+    margin-left:50px;
+}
+.show_reply{
+    width:100%;
+    height:auto;
+    margin-top:20px;
+    box-shadow:5px 5px 10px black;
+    background-color:white;
+    box-sizing:border-box;
+    padding:5px;
+}
+
+{% endblock %}
+
+{% block body%}
+
+{% load static %}
+
+{% for blog_view in particular_blog %}
+
+<!--when user click on blog details button that he will get complete details of that particular blog-->
+
+    <div id="contentdetails_container">
+        <p>
+            <div id="contentdetails_pic">
+                <img class=contentdetails_pic_image src="/media/{{blog_view.Blog_Image}}">
+                <p style="font-size:15px;color:brown;">{{blog_view.Blog_Date}} <span id="contentdetails_author">{{blog_view.Author_Name}}</span><span style="display:none" id="show_id">{{blog_view.id}}</span></p>
+            </div>
+            <div id="contentdetails_text">
+                <center><h1 style="color:brown;">{{blog_view.Blogger_Title}}</h1></center>
+            </div>
+            {{blog_view.Blogger_Content}}
+        </p>
+
+    </div>
+
+    <!--comment part logic-->
+    <div id="comment_container">
+        <h1 style="color:white;">Recent Comments(<span id="comment_count"></span>)</h1>
+        <hr>
+        <div id="post_comment_container">
+            {% if user.is_authenticated %}
+                <form action="/blog/publishcomment" method="post">{% csrf_token %}
+                    <div style="display:flex;">
+                        <input type="hidden" value="" name="product_comment_id" class="product_comment_id" >
+                        <label><img class="user-comment-image" src="{% static 'blog/blog1.jpg' %}"></label> <input type="text" placeholder="Add a comment.." id="comment_text" name="comment_text" required>
+                        <input id="post_comment" type="submit" value="Post">
+                    </div>
+                </form>
+            {% else %}
+            <h2>Please Logged In to Post Comments</h2>
+            {% endif %}
+        </div>
+
+    <!--    display user comments-->
+        <div id="disp_comment_container">
+
+            {% for comment in show_comment %}
+                <div class="show_comment">
+                    <div class="user-comment-div">
+                        <img class="user-comment-image" src="{% static 'blog/blog1.jpg' %}">
+                    </div>
+                    <div style="margin:0px;">
+                        <h3 style="margin:0px;">{{comment.User.username}}</h3>
+                        <span style="font-size:13px;">{{comment.Commment_Date}}<span style="display:none;">{{comment.Sno}}</span></span>
+                        <p>{{comment.Comment}}</p>
+
+                        <div class="reply_button" onclick="reply({{forloop.counter}})">
+                            <i class="fa-regular fa-comment"></i>
+                        </div>
+
+                        <div class="reply_form">
+                            <form action="/blog/publishcomment" method="post">{% csrf_token %}
+                                <div style="display:flex;">
+                                    <input type="hidden" value="" name="product_comment_id" class="product_comment_id">
+                                    <input type="hidden" value="" name="product_reply_id" class="product_reply_id">
+                                    <label>
+                                        <img class="user-reply-image" src="{% static 'blog/blog1.jpg' %}">
+                                    </label>
+                                    <input type="text" placeholder="Add a Reply.." class="reply_comment_text" name="comment_text" required>
+                                </div>
+                                <input class="post_reply" type="submit" value="Reply">
+                            </form>
+                        </div>
+
+    <!--display reply of that particular comment-->
+                        <div id="show_reply_container">
+                            {% for reply in show_reply %}
+                                {% if comment.Sno is reply.Reply_id %}
+                                <div class="show_reply" style="display:flex;">
+                                     <div class="user-reply-div">
+                                        <img class="user-reply-image" src="{% static 'blog/blog1.jpg' %}">
+                                     </div>
+                                    <div style="margin:0px;">
+                                        <h3 style="margin:0px;">{{reply.User.username}}</h3>
+                                        <span style="font-size:13px;">{{reply.Commment_Date}}<span style="display:none;">{{reply.Sno}}</span></span>
+                                        <p>{{reply.Comment}}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endfor %}
+{% endblock %}
+
+
+    {% block script %}
+<!--get particular product id-->
+    var product_idd= document.querySelector("#show_id").innerHTML
+    document.querySelector(".product_comment_id").value = product_idd
+    console.log("affafdfa",document.querySelector(".product_comment_id").value)
+
+<!--counting number of comments-->
+    var count = document.querySelector("#disp_comment_container").children.length
+    document.querySelector('#comment_count').innerHTML = count
+
+                        <!--reply logic-->
+
+<!--display particular replay button-->
+    function reply(id){
+    document.querySelector('#disp_comment_container').children[id-1].children[1].children[3].style.display = 'none';          <!--  hidding reply button-->
+    document.querySelector('#disp_comment_container').children[id-1].children[1].children[4].style.display = 'block'        <!--  showing reply form -->
+
+<!--get particular comment id-->
+    var reply_comment_idd=  document.querySelector('#disp_comment_container').children[id-1].children[1].children[1].children[0].innerHTML
+   document.querySelector('#disp_comment_container').children[id-1].children[1].children[4].querySelector(".product_reply_id").value = reply_comment_idd
+    console.log(reply_comment_idd)
+
+<!--get particular product id-->
+    var product_idd= document.querySelector("#show_id").innerHTML
+    document.querySelector('#disp_comment_container').children[id-1].children[1].children[4].querySelector('.product_comment_id').value = product_idd
+
+}
+
+
+
+{% endblock%}

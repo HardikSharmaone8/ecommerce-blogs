@@ -1,0 +1,1 @@
+web: gunicorn Hkart.wsgi:application --log-file -

@@ -1,0 +1,129 @@
+{% extends "shop/basic.html" %}
+
+{% block title %} Contacts {% endblock%}
+
+{% block css %}
+
+#contact_validation{
+    height:50px;
+    width:100%;
+    background-color:rgba(255,0,0,0.4);
+    margin:-10px 0px 10px 0px;
+    box-sizing:border-box;
+    padding:10px 0px 0px 20px;
+    font-weight:bold;
+    display:none;
+}
+
+#contact_form{
+    height:400px;
+    width:40%;
+    margin:auto;
+    background-color:rgba(0,0,0,0.2);
+    padding:10px;
+    box-sizing:border-box;
+    text-align:center;
+    box-shadow:2px 2px 10px black;
+}
+
+#msg_text{
+    font-weight:bold;
+    text-align:center;
+}
+.input_class{
+    margin-top:20px;
+}
+#contact_input1,#contact_input2,#contact_input3,#contact_input4{
+    width:100%;
+}
+input{
+    height:25px;
+}
+label{
+    font-weight:bold;
+    float:left;
+}
+#submit{
+    text-align:center;
+    background-color:brown;
+    color:white;
+    height:30px;
+    width:20%;
+    font-size:22px;
+    font-weight:bold;
+}
+#submit:hover{
+    cursor:pointer;
+    border:3px solid brown;
+    background-color:white;
+    color:brown;
+    }
+
+{% endblock%}
+
+
+{% block body %}
+<div id="contact_validation">sdfsadf</div>
+ <div id="contact_form">
+    <h2 id="msg_text">Message me</h2>
+    <form action="/shop/contacts" method="post" >{% csrf_token %}
+      <div class="input_class"><label>Name:</label><input type="text" id="contact_input1"  name="name" placeholder="Name" onkeyup="validate()" required></div>
+      <div class="input_class"><label>Email:</label><input type="email" id="contact_input2" value="" name="email" placeholder="Email" required></div>
+       <div class="input_class"><label>Phone:</label><input type="number" value=""  id="contact_input3" name="phone" placeholder="Phone Number" onkeyup="validate()"  required></div>
+        <div class="input_class"><label>Description:</label> <input type="text"  id="contact_input4"  value="" name="description" id="message" placeholder="Message" required></div>
+      <input type="submit" value="Submit" id="submit" class="input_class"/><br>
+    </form>
+ </div>
+
+{% endblock%}
+
+{% block script %}
+
+<!--form validation logic-->
+
+
+function validate(){
+
+name = document.querySelector('#contact_input1').value.toUpperCase()
+phone = document.querySelector('#contact_input3').value
+email = document.querySelector('#contact_input2').value
+desc = document.querySelector('#contact_input4').value.toUpperCase()
+
+
+    function show_error(err){
+        document.querySelector('#contact_validation').style.display = 'block';
+        document.querySelector('#contact_validation').innerHTML = err;
+    }
+    function remove_error(){
+        document.querySelector('#contact_validation').style.display = 'none';
+        }
+
+
+    if(name.length <= 2){
+        error = 'Name must be greater than 2 charactors'
+        show_error(error)
+    }
+    else if(name.search('1')!= -1 || name.search('2')!= -1 || name.search('3')!=-1 || name.search('4')!=-1 || name.search('5')!=-1 || name.search('6')!=-1 || name.search('7')!=-1 || name.search('8')!=-1 || name.search('9')!=-1 || name.search('0')!=-1 ){
+        error = 'Name Must be Charactor Type'
+        show_error(error)
+    }
+    else if(phone.toString().length != 10 ){
+        error = 'Phone number must be 10 Digit'
+        show_error(error)
+    }
+    else{
+        remove_error()
+    }
+
+}
+<!--when the user click on submit button logic-->
+{% if check_contact %}
+alert("Your Contact Details Successfully Send...Thanks.")
+document.location= "/shop/item"
+{% endif %}
+
+
+
+{% endblock %}
+
+

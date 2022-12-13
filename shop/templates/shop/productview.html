@@ -1,0 +1,107 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} Product view {% endblock %}
+
+{% block css %}
+
+#view_container{
+height:500px;
+width:80%;
+margin:auto;
+border:1px solid black;
+padding:10px;
+box-sizing:border-box;
+background-color:rgba(0,0,0,0.1);
+display:flex;
+box-shadow:2px 2px 10px black;
+}
+
+#view_pic_container{
+height:90%;
+width:30%;
+}
+
+#view_pic{
+height:80%;
+width:100%;
+}
+
+img{
+height:300px;
+width:100%;
+}
+
+#view_pic_button{
+display:flex;
+height: 40px;
+align-items:center;
+margin-left:40px;
+}
+
+.product_add,.product_buy{
+height:35px;
+width:35%;
+text-align:center;
+box-sizing:border-box;
+padding-top:5px;
+background-color:brown;
+margin-right:20px;
+color:white;
+font-weight:bold;
+border-radius:3px;
+box-sizing:border-box;
+}
+
+.product_add:hover{
+cursor:pointer;
+}
+.product_buy:hover{
+cursor:pointer;
+}
+#view_text_container{
+width:60%;
+margin-left:10%;
+}
+h2{
+font-weight:bold;
+}
+{% endblock %}
+
+{% block body %}
+{% for productview in productPreview %}
+
+<div id="view_container">
+  <div id="view_pic_container">
+    <div id="view_pic"><img src="/media/{{productview.image}}" /></div>
+    <div id="view_pic_button">
+      <div class="product_buy">Buy Now</div>
+      <div class="product_add">Add To Cart</div>
+    </div>
+  </div>
+  <div id="view_text_container">
+    <h2>{{productview.product_name}}</h2>
+    <h6>Price: {{productview.price}}</h6>
+    <p>{{productview.desc}}</p>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block script %}
+
+document.querySelector(".product_buy").addEventListener("click",()=>{
+  swal({
+  title: "Information",
+  text: "Sorry, Bank server is down, So, please try again later",
+  icon: "info",
+});
+})
+
+document.querySelector(".product_add").addEventListener("click",()=>{
+  swal({
+  title: "Information",
+  text: "Please add products on home screen",
+  icon: "info",
+});
+})
+{% endblock %}

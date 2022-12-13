@@ -1,0 +1,232 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}Shop{% endblock %}
+
+{% block css%}
+i{
+  font-size:30px;
+  position:absolute;
+  cursor:pointer;
+}
+.fa-backward-fast{
+  margin-left:-70px;
+}
+.fa-forward-fast{
+  margin-left:870px;
+  margin-top:-140px;
+}
+#big_container{
+  height:auto;
+  width:870px;
+  margin-left:200px;
+  overflow:hidden;
+  margin-bottom:100px;
+}
+.container{
+  height:250px;
+  width:870px;
+  margin-bottom:50px;
+}
+.semi_container{
+  height:250px;
+  width:80000px;
+  display:flex;
+  transition:3.5s;
+}
+.show_pro{
+  height:auto;
+  width:209px;
+  border:1px
+  outset gray;
+  padding:4px;
+  box-sizing:border-box;
+  background-color: rgba(0,0,0,0.1);
+  margin-right:5px;
+  transition:0.1s;
+  box-shadow:2px 2px 10px black;
+}
+.show_pro:hover{
+  box-shadow:5px 5px 10px black;
+  height:255px;
+  width:212px;
+}
+img{
+  height:120px;
+  width:100%;
+}
+.pro_text{
+  height:25%;
+  width:100%;
+  font-size:12px;
+}
+.pro_plus_minus{
+  height:10%;
+  width:45%;
+  background-color:brown;
+  margin-right:20px;
+  color:white;
+  font-weight:bold;
+  border-radius:3px;
+  box-sizing:border-box;
+  display:none;
+}
+.pro_add{
+  height:10%;
+  width:45%;
+  background-color:brown;
+  margin-right:20px;
+  color:white;
+  font-weight:bold;
+  border-radius:3px;
+  box-sizing:border-box;
+}
+.pro_add:hover{
+  cursor:pointer;
+  color:gold;
+}
+.pro_preview{
+  margin-left:10px;
+  text-decoration:none;
+  height:10%;
+  width:45%;
+  background-color:brown;
+  margin-right:20px;
+  color:white;
+  font-weight:bold;
+  border-radius:3px;
+  box-sizing:border-box;
+}
+.pro_preview:hover{
+  cursor:pointer;
+}
+.slide_show_container{
+  height:20px;
+  width:90px;
+  margin-left:44%;
+  margin-top:-1%;
+  display:flex;
+
+}
+.slide_show{
+  height:10px;
+  width:40px;
+  border-radius:50px;
+  background-color:rgba(0, 0, 0, 0.5)
+}
+h5{
+  font-weight:bold;
+}
+
+{% endblock%}
+
+{%block body %}
+
+  <div id="big_container">
+    {% for product, range, nslide in allProduct %}
+
+      <div class="container">
+        <h4 style="font-weight: bold; margin-top: 50px; margin-bottom: 10px">
+          {{product.0.category}}
+        </h4>
+        <i style="margin-top: 100px" class="fa-solid fa-backward-fast" onclick="forward_backward_show({{forloop.counter}},{{nslide}},-1)"></i>
+
+        <div class="semi_container">
+          {% comment %} Multiple products display {% endcomment %}
+          {% for i in product|slice:"0:" %}
+            <div class="show_pro">
+              {% load static%}
+              <div class="pro_image">
+                <img src="/media/{{i.image}}" />
+              </div>
+              <h5 class="name">{{i.product_name}}</h5>
+              <div class="pro_text" style="margin-top:-20px">
+                <p style="color: brown; font-weight: bold">
+                  Price:- <span>{{i.price}}</span>
+                </p>
+                <p style="margin-top:-12px">{{i.desc|slice:":50"}}</p>
+              </div>
+
+              <div style="display: flex; text-align: center">
+                <div class="pro_plus_minus">
+                  <div style="display: flex; box-sizing: border-box">
+                    <div class="minus" onclick="minus({{forloop.parentloop.counter}},{{forloop.counter}})">
+                      -
+                    </div>
+                    <span class="product_in_cart" style="margin: 0px 10px 0px 10px"></span>
+                    <div class="plus" id="proId{{i.id}}" onclick="plus({{forloop.parentloop.counter}},{{forloop.counter}})">
+                      +
+                    </div>
+                  </div>
+                </div>
+                <div class="pro_add" onclick="add({{forloop.parentloop.counter}},{{forloop.counter}})">
+                  Add
+                </div>
+                <a class="pro_preview" href="productview/{{i.id}}">
+                  <div id="productPreviewId{{i.id}}">Details</div>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <i class="fa-solid fa-forward-fast" onclick="forward_backward_show({{forloop.counter}},{{nslide}},1)"></i>
+
+        <div class="slide_show_container">
+            <div style="background-color: brown" class="slide_show"></div>
+              {% for i in range %}
+                <div class="slide_show"></div>
+              {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
+
+{% block script %}
+
+  var container =  document.querySelector("#big_container").children.length
+  var semi_container = document.querySelector(".semi_container").children.length
+
+  forward = document.getElementById("big_container").querySelectorAll(".fa-forward-fast");
+  backward = document.getElementById("big_container").querySelectorAll(".fa-backward-fast");
+  getProduct =document.getElementById("big_container").querySelectorAll(".pro_add");
+
+  {%comment %} forward button logic {% endcomment %}
+  var z = 0;
+  function forward_backward_show(x,range,num){
+    console.log("Range",range)
+    z = z + num;
+    if(z >= range){
+      z = 0;
+    }
+    else if(num == -1){
+      backward_show(x,z)
+    }
+    else{
+      console.log('hello from the forward backward',z,range)
+      forward_show(x,z)
+    }
+  }
+
+  function forward_show(x,i){
+      console.log('asdfsad',i)
+      document.getElementById("big_container").children[x-1].querySelector(".semi_container").style.marginLeft = -865 * i + "px"
+      document.getElementById("big_container").children[x-1].querySelector(".slide_show_container").children[i].style.backgroundColor= "brown"
+  }
+
+  {% comment %} Back button logic {% endcomment %}
+
+
+  function backward_show(x,i){
+    document.getElementById("big_container").children[x-1].querySelector(".semi_container").style.marginLeft = -865 * i + "px"
+    document.getElementById("big_container").children[x-1].querySelector(".slide_show_container").children[i].style.backgroundColor= "brown"
+    slides =document.getElementById("big_container").children[x-1].querySelector(".slide_show_container").getElementsByClassName("slide_show").length
+    console.log(slides)
+    for(j=i+1; j<=slides; j++){
+      document.getElementById("big_container").children[x-1].querySelector(".slide_show_container").children[j].style.backgroundColor="rgba(0,0,0,0.5)"
+    }
+
+  }
+
+{% endblock %}

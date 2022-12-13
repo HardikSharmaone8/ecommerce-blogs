@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Basic Page{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    {% block head %}{% endblock %}
+    <style>
+
+        body{
+          display: flex;
+          flex-direction: column;
+            padding:0px;
+             margin:0px;
+        }
+
+          #navigation_header{
+              height:50px;
+              width:100%;
+              background-color:brown;
+              color:white;
+              box-sizing:border-box;
+              padding:5px 20px 0px 30px;
+              margin-bottom:20px;
+              box-shadow:5px 5px 10px black;
+              }
+        #responsive_heading{
+          display:none;
+        }
+
+          #navigation_ul{
+          display:flex;
+          list-style:none;
+          }
+          .nav-item{
+              font-weight:bold;
+              color:white;
+              margin-left:20px;
+
+          }
+          .nav-item:hover{
+              color:gold;
+          }
+          #search_form{
+            margin-top:-10px;
+          }
+
+          .write_product{
+              background-color:white;
+              width:500px;
+              margin-left:20px;
+              height:30px;
+              }
+          #search_product{
+              font-size:15px;
+              font-weight:bold;
+              color:white;
+              background-color:brown;
+              width:70px;
+              border-radius:5px;
+              height:30px;
+              text-align:center;
+              margin-left:0px;
+          }
+          #search_product:hover{
+              background-color:white;
+              color:brown;
+              border:3px solid brown;
+          }
+
+            #add_to_kart{
+              font-size:22px;
+              font-weight:bold;
+              color:white;
+              margin-left:50px;
+              background-color:brown;
+              width:100px;
+              border-radius:5px;
+              height:35px;
+              text-align:center;
+              transition:1s;
+              margin-top:-10px;
+             }
+            .plus{
+              width:25px;
+              height:22px;
+              background-color:brown;
+              border:1px solid white;
+              color:white;
+              font-weight:bold;
+              align-items:center;
+              border-radius:5px;
+            }
+              .minus{
+              width:25px;
+              height:22px;
+              background-color:brown;
+              border:1px solid white;
+              color:white;
+              font-weight:bold;
+              align-items:center;
+              border-radius:5px;
+            }
+
+            .minus,.plus:hover{
+            cursor:pointer;
+            }
+             #add_to_kart:hover{
+              cursor:pointer;
+             }
+
+             #drop{
+              height:auto;
+              width:200px;
+              background-color:rgba(0,0,0,0.4);
+              color:white;
+              font-weight:bold;
+              font-size:10px;
+              position:absolute;
+              border-radius:0px 20px 0px 20px;
+              margin-left:1050px;
+              text-align:center;
+              text-overflow: clip;
+              display:none;
+              margin-top:60px;
+             }
+             .cc_button{
+             display:flex;
+             }
+
+              #checkout{
+              font-size:15px;
+              font-weight:bold;
+              color:white;
+             background-color:brown;
+              width:45%;
+              border-radius:5px;
+              height:30px;
+              text-align:center;
+              transition:1s;
+              margin-right:10%;
+              }
+              #clear_cart{
+                 font-size:15px;
+                  font-weight:bold;
+                  color:white;
+                  background-color:brown;
+                  width:45%;
+                  border-radius:5px;
+                  height:30px;
+                  text-align:center;
+                  transition:1s;
+                  }
+
+              #checkout,#clear_cart:hover{
+              cursor:pointer
+              }
+              a{
+                text-decoration:none;
+                color:white;
+
+              }
+              a:hover{
+                color:gold;
+              }
+
+
+            {% block css %}  {% endblock %}
+
+      #footer {
+          width: 100%;
+          height: 60px;
+          background-color: black;
+          text-align: center;
+          color: white;
+          font-size: 20px;
+          font-weight: bold;
+          box-sizing: border-box;
+          padding: 2px;
+          margin-top:100px;
+      }
+
+      .fa-facebook,
+      .fa-instagram-square,
+      .fa-youtube,
+      .fa-twitter-square {
+          margin-right: 30px;
+          font-weight:20px;
+      }
+
+  @media (max-width:480px){
+     body{
+      padding:0px;
+      margin:0px;
+     }
+     #navigation_header{
+      padding:5px 10px 0px 10px;
+     }
+     #navigation_ul{
+      display:none;
+     }
+     #responsive_heading{
+      display:flex;
+      margin-top:-10px;
+     }
+     #res_head{
+      margin-left:15%;
+     }
+  }
+    </style>
+  </head>
+
+  <body>
+    <div id="navigation_header">
+
+
+      <ul id="navigation_ul">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="item">Shop</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="tracker">Tracker</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog/content">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contacts">Contact</a>
+        </li>
+
+        <li>
+          <form action="search" method="GET" id="search_form">
+            {% csrf_token %}
+            <input
+              type="text"
+              class="write_product"
+              name="search"
+              placeholder="Search for producs, brands and more"
+              required
+            />
+            <input type="submit" id="search_product" value="search" />
+          </form>
+        </li>
+        <li id="add_to_kart" onmouseenter="dropdown()">
+          cart(<span id="add_to_cart"></span>)
+        </li>
+      </ul>
+    </div>
+
+    <div id="drop"><ol></ol></div>
+
+    {% block body%} {% endblock %}
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+
+
+      //store add to cart data into localStorage
+
+            if (localStorage.getItem('cart') == null){
+              var cart = {}
+            }
+            else{
+              cart = JSON.parse(localStorage.getItem('cart'))     // adding object data in to the localstorage
+            }
+
+
+            //click event on add button
+            function add(x,y){
+            //when the user click on add button show the + and - symbol
+            document.getElementById("big_container").children[x-1].children[2].children[y-1].querySelector(".pro_add").style.display = "none";
+            document.getElementById("big_container").children[x-1].children[2].children[y-1].querySelector(".pro_plus_minus").style.display = "block";
+              }
+
+      //display the total cart selected by the user in the top of the website
+
+           function disp(number){
+          document.getElementById("add_to_cart").innerHTML = number;
+           }
+
+
+
+      //when user click on plus button
+          function plus(x,y){
+            var add_id = document.getElementById("big_container").children[x-1].children[2].children[y-1].querySelector(".plus").id
+            var product_name = document.getElementById("big_container").children[x-1].children[2].children[y-1].querySelector(".name").innerHTML
+            var product_price = document.getElementById("big_container").children[x-1].children[2].children[y-1].querySelector(".pro_text").children[0].children[0].innerHTML
+            idStr = add_id.toString();
+            if(cart[idStr] != undefined){
+               cart_quantity = cart[idStr][0] + 1
+               cart_name = product_name
+               cart_price = product_price
+               cart[idStr] = [cart_quantity,cart_name,cart_price];
+            }
+            else{
+              cart_quantity = 1;
+              cart_name = product_name
+              cart_price = product_price
+              cart[idStr] = [cart_quantity,cart_name,cart_price];
+            }
+            console.log("asdfasd",cart)
+            localStorage.setItem('cart', JSON.stringify(cart))    //adding string data into the database
+
+      // showing the number of cart for particular product
+
+          document.getElementById("big_container").children[x-1].children[2].children[y-1].querySelector(".product_in_cart").innerHTML = cart[idStr][0]
+            disp(Object.keys(cart).length)
+            }
+
+      //click on minus button
+          function minus(x,y){
+           var add_id = document.getElementById("big_container").children[x-1].children[2].children[y-1].querySelector(".plus").id
+            console.log(add_id);
+            idStr = add_id.toString();
+            if(cart[idStr][0] != undefined){
+               cart[idStr][0] = cart[idStr][0] - 1;
+               cart[idStr][0] = Math.max(0,cart[idStr][0])
+            }
+            localStorage.setItem('cart', JSON.stringify(cart))    //adding string data into the database
+
+            document.getElementById("big_container").children[x-1].children[2].children[y-1].querySelector(".product_in_cart").innerHTML = cart[idStr][0]
+          }
+
+
+      //cart hover logic
+            function dropdown(){
+            document.getElementById("drop").children[0].style.display = "block"
+             var order_list   = document.querySelector("#drop").children[0].children.length
+             var button_list = document.querySelector("#drop").children.length
+            document.getElementById("drop").style.display = "block";
+             var i=0;
+              console.log("Key of Kart:",Object.keys(cart))
+              var array_of_cart_key = Object.keys(cart)
+              var array_of_cart_value = Object.values(cart)
+
+
+              console.log("values",array_of_cart_value)
+
+
+      //logic for cart drop down menu adding list of product that user add it into the cart
+             while(Object.keys(cart).length > i){
+             var get_product_name = document.getElementById(array_of_cart_key[i]).parentElement.parentElement.parentElement.parentElement.children[1].innerHTML
+              console.log(get_product_name)
+              console.log(array_of_cart_value[i][0])
+                var html = `<li>${get_product_name},<span style='margin-left:7px'>Qty: - ${array_of_cart_value[i][0]}</span></li>`
+                document.querySelector("#drop").children[0].insertAdjacentHTML("afterbegin",html)
+                i++
+                }
+
+                var clear_cart_checkout_button = "<div class='cc_button'><div id='checkout'><a href='checkout'>Checkout</a></div><div id='clear_cart'>Clear cart</div></div>"
+                document.querySelector("#drop").children[0].insertAdjacentHTML("afterend",clear_cart_checkout_button)
+                  for(var y=2;y<=button_list;y++){
+                    console.log(y)
+                    document.querySelector("#drop").children[y].style.display= "none"
+               }
+                for(var x = Object.keys(cart).length; x <= order_list + Object.keys(cart).length - 1; x++){
+                    console.log("klasdfkjdslk",x)
+                     document.querySelector("#drop").children[0].children[x].style.display= "none"
+                }
+
+      //when user click on clear Cart Button
+
+                document.getElementById("clear_cart").addEventListener("click",()=>{
+                var i = 0;
+                while(Object.keys(cart).length > i){
+                document.getElementById(array_of_cart_key[i]).parentElement.parentElement.nextElementSibling.style.display = "block"
+                document.getElementById(array_of_cart_key[i]).parentElement.parentElement.style.display = "none"
+                document.getElementById(array_of_cart_key[i]).previousElementSibling.innerHTML = 0;
+                i++
+                }
+                localStorage.clear(cart);
+                cart = {}
+                document.getElementById("drop").children[0].style.display = "none"
+                disp(Object.keys(cart).length)
+                dropdown()
+                })
+                }
+
+              document.querySelector("#drop").addEventListener("mouseleave",()=>{
+                document.getElementById("drop").style.display ="none";
+                document.querySelector(".cc_button").style.display="none";
+              })
+
+      disp(Object.keys(cart).length)
+
+        {% block script %}{% endblock %}
+    </script>
+  </body>
+</html>

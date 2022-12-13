@@ -1,0 +1,20 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}Not Found{% endblock %}
+
+{%block css %}
+
+#notavail{
+    height:300px;
+    width:70%;
+}
+{% endblock %}
+
+{% block body %}
+{% load static %}
+<center><img src="{% static 'shop/notavailable.jpg' %}" id="notavail"></center>
+<div style="margin:auto;">
+    <h3 style="color:red;">Sorry Item Is not found in the cart...</h3>
+</div>
+
+{% endblock %}

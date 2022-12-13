@@ -1,0 +1,262 @@
+{% extends 'blog/basic.html' %}
+
+{% block title %}Blog{% endblock %}
+
+
+{% block css %}
+
+    #blog_background_image{
+        height:400px;
+        width:100%;
+        box-shadow:10px 10px 10px black;
+    }
+    #blog_heading{
+        position:absolute;
+        color:white;
+        font-weight:bold;
+        margin:auto;
+        margin:-380px 0px 0px 500px;
+    }
+    #blog_image_container{
+        height:400px;
+        width:85%;
+        margin:auto;
+        overflow:hidden;
+        margin-top:-300px;
+        box-shadow:10px 10px 10px black;
+        border-radius:7px;
+    }
+    #blog_image_semicontainer{
+        height:400px;
+        width:10000px;
+        animation: blog_slider 20s infinite;
+    }
+    .blog_images{
+        height:400px;
+        width:1100px;
+    }
+    @keyframes blog_slider{
+    0%{
+        margin-left:0px;
+    }
+    20%{
+        margin-left:0px;
+    }
+    40%{
+        margin-left:-1100px;
+    }
+    60%{
+         margin-left:-2200px;
+    }
+    80%{
+         margin-left:-3300px;
+    }
+    100%{
+         margin-left:-4400px;
+    }
+    }
+@keyframes multi{
+     0%{
+     background-image:url('/static/blog/adventure blog.jpg')
+    }
+     20%{
+     background-image:url('/static/blog/adventure blog.jpg')
+    }
+     40%{
+       background-image:url('/static/blog/food blog.jpg')
+    }
+    60%{
+       background-image:url('/static/blog/education blog.jpg')
+    }
+    80%{
+      background-image:url('/static/blog/family blog.jpg')
+    }
+    100%{
+         background-image:url('/static/blog/historic blog.jpg')
+    }
+
+}
+
+    #create_blog_container{
+        width:100%;
+        height:650px;
+        animation: multi 20s infinite;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-top:100px;
+        box-sizing:border-box;
+        padding:50px;
+    }
+    .creat_blog_images{
+        width:100%;
+        height:700px;
+        margin-top:-70px;
+    }
+    #create_blog_heading{
+        font-weight:bold;
+        color:brown;
+        font-size:50px;
+    }
+    #create_blog_heading2{
+           font-weight:bold;
+    }
+    #create_blog_button{
+        margin-top:70px;
+        height:45px;
+        width:300px;
+        background-color:brown;
+        border-radius:5px;
+        box-sizing:border-box;
+        padding-top:8px;
+        color:white;
+        font-weight:bold;
+        font-size:25px;
+        text-decoration:none;
+    }
+    #create_blog_button:hover{
+        background-color:white;
+        border:3px solid brown;
+        color:brown;
+}
+.create_blog_button{
+    color:white;
+}
+.create_blog_button:hover{
+    color:brown;
+    }
+a:hover{
+    color:brown;
+}
+.blog_anchor{
+    text-decoration:none;
+    font-weight:bold;
+    color:white;
+    box-sizing:border-box;
+}
+.blog_anchor:hover{
+    color:brown;
+}
+    .blog_content_semicontainer{
+        width:80%;
+        margin:auto;
+        margin:50px 0px 100px 135px;
+        height:auto;
+        display:grid;
+        grid-templates-row:300px;
+        grid-template-columns: repeat(3, auto);
+        grid-template-rows: repeat(auto, auto);
+        grid-gap:15px;
+    }
+    .blog_content{
+        height:310px;
+        box-sizing:border-box;
+        padding:10px;
+        width:300px;
+        border-radius:5px;
+        box-shadow:10px 10px 10px black;
+        margin-top:50px;
+    }
+    .blog_content_image{
+        height:150px;
+        width:100%;
+    }
+    .blog_title_anchor{
+    text-decoration:none;
+    color:black;
+}
+    .blog_readmore_button{
+        background-color:brown;
+        color:white;
+        font-weight:bold;
+        box-sizing:border-box;
+        text-align:center;
+        border-radius:5px;
+        height:25px;
+        padding-top:3px;
+        width:40%;
+        margin-left:25%;
+    }
+.blog_anchor{
+text-decoration:none;
+color:white;
+}
+  .blog_anchor:hover{
+        color:brown;
+}
+    .blog_readmore_button:hover{
+        cursor:pointer;
+        color:brown;
+        background-color:white;
+        border:3px solid brown;
+    }
+a{
+    text-decoration:none;
+}
+{% endblock%}
+
+{% block body %}
+        {% load static %}
+
+
+    <div>
+        <img id="blog_background_image" src="{% static 'blog/bloodlogin.jpg'%}"></img>
+        <h1 id="blog_heading">Welcome To Our Blog</h1>
+    </div>
+
+    <div id="blog_image_container">
+        <div id="blog_image_semicontainer">
+            <img src="{% static 'blog/blog1.jpg'%}" class="blog_images">
+            <img src="{% static 'blog/blog2.jpg'%}" class="blog_images">
+            <img src="{% static 'blog/blog3.jpg'%}" class="blog_images">
+            <img src="{% static 'blog/blog4.jpg'%}" class="blog_images">
+            <img src="{% static 'blog/blog5.jpg'%}" class="blog_images">
+        </div>
+    </div>
+
+    <div id="create_blog_container">
+            <center><h1 id="create_blog_heading">Publish your passions, your way</h1></center>
+            <center> <h2 id="create_blog_heading2">Create a unique and beautiful blog</h2></center>
+            <center> <div id="create_blog_button"><a href="createblog" class="create_blog_button">CREATE YOUR BLOG</a></div></center>
+    </div>
+
+    <center><h1 style="color:brown;">Polular Blogs</h1></center>
+    <hr>
+
+    <div class="blog_content_semicontainer">
+
+        {% for database_blog,user_blog in blogDetails %}
+            {% for i in database_blog|slice:"0:" %}
+                <div class="blog_content">
+                     <img class="blog_content_image" src ="/media/{{i.BlogImage}}">
+                    <p style="font-size:11px;color:brown;">{{i.BlogDate}} <span style="margin-left:20px;">{{i.BlogAuthor}}</span></p>
+                    <h3 style="margin-top:-5px;"><a class="blog_title_anchor" href="contentdetails/{{i.id}}">{{i.BlogTitle}}</a></h3>
+                    <p style="margin-top:-12px;">{{i.BlogDetails|slice:"0:50"}}...</p>
+                    <div  class="blog_readmore_button"><a class="blog_anchor" href="contentdetails/{{i.id}}">Read More</a></div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% for database_blog,user_blog in blogDetails %}
+            {% if forloop.counter == 1 %}
+                {% for i in user_blog|slice:"0:" %}
+
+                    <div class="blog_content">
+                        <img class="blog_content_image" src ="/media/{{i.Blog_Image}}">
+                        <p style="font-size:11px;color:brown;">{{i.Blog_Date}} <span style="margin-left:20px;">{{i.Author_Name}}</span></p>
+                        <h3 style="margin-top:-5px;" >{{i.Blogger_Title}}</h3>
+                        <p style="margin-top:-12px;">{{i.Blogger_Content|slice:"0:50"}}...</p>
+                        <div  class="blog_readmore_button"><a class="blog_anchor" href="userContentDetails/{{i.id}}">Read More</a></div>
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+
+

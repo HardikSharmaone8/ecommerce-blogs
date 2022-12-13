@@ -1,0 +1,249 @@
+{% extends "shop/basic.html" %}
+
+
+
+{% block title %}Tracking {% endblock %}
+
+{% block css %}
+#tracking_container1{
+    height:150px;
+    width:90%;
+    background-color:rgba(0,0,0,0.2);
+    box-shadow:2px 2px 10px black;
+    padding:20px;
+    margin:auto;
+    box-sizing:border-box;
+}
+input{
+    width:60%;
+}
+label{
+    font-weight:bold;
+}
+#track_order{
+    font-size:18px;
+    font-weight:bold;
+    color:white;
+    background-color:brown;
+    width:150px;
+    border-radius:5px;
+    height:35px;
+    text-align:center;
+    margin-top:10px;
+}
+
+#tracking_container2{
+    height:auto;
+    width:90%;
+    background-color:rgba(0,0,0,0.2);
+    box-shadow:2px 2px 10px black;
+    padding:20px;
+    margin:auto;
+    margin-top:50px;
+    box-sizing:border-box;
+    margin-bottom:50px;
+}
+
+#tracking_container3{
+    height:auto;
+    width:90%;
+    background-color:rgba(0,0,0,0.2);
+    box-shadow:2px 2px 10px black;
+    padding:20px;
+    margin:auto;
+    margin-top:50px;
+    box-sizing:border-box;
+}
+#customer_order_id{
+    height:32px;
+}
+.shipment_status_texts{
+    height:auto;
+    width:20px;
+    background-color:brown;
+    border-radius:20px;
+    color:white;
+    text-align:center;
+}
+h4{
+    color:brown;
+font-weight:bold;
+}
+.shipment_status{
+    font-weight:bold;
+}
+.shipment_status_text{
+    width:60%;
+}
+.shipment_status_logo{
+   width:20%;
+}
+.shipment_status_date{
+   width:20%;
+}
+i{
+    font-weight:bold;
+    color:brown;
+    font-size:25px;
+}
+.tracker_heading{
+    color:brown;
+    font-weight:bold;
+}
+{% endblock%}
+
+{% block body %}
+    <div id="tracking_container1">
+        <h2 class="tracker_heading">Enter Your Tracking Id</h2>
+        <center>
+        <div id="tracking_semicontainer">
+            <form action="/shop/tracker" method="post">{% csrf_token %}
+                <label>Tracking Id:</label> <input type="text" name="customer_order_id" id="customer_order_id" placeholder="Enter Your Tracking Id"required>
+                <input type="submit" value="Track Order" id="track_order">
+            </form>
+        </div>
+        </center>
+    </div>
+
+    <div id="tracking_container3">
+        <h2 class="tracker_heading">Product Details</h2>
+
+        {% for description,date,product_name_value,product_names_values in updates %}
+            <div style="display:flex;">
+                <div style="width:20%;">
+                    {% for i in product_name_value|slice:"0:" %}
+                        {% if forloop.parentloop.counter == 1 %}
+                            <div class="shipment_status" style="display:flex;">
+                                <div class="shipment_status_text">{{i}}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+                <div>
+                    {% for j in product_names_values|slice:"0:" %}
+                        {% if forloop.parentloop.counter == 1 %}
+                            <div class="shipment_status" style="display:flex;">
+                                <div class="shipment_status_texts">{{j}}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor%}
+
+    </div>
+
+
+    <div id="tracking_container2">
+        <h2 class="tracker_heading">Order Status</h2>
+        <div class="status_title" style="display:flex;visibility:hidden;">
+                <div class="shipment_status_text" style="color:brown;font-weight:bold;font-size:18px;">Activity</div>
+                <div style="color:brown;font-weight:bold;font-size:18px;width:20%;"></div>
+                <div class="shipment_status_date" style="color:brown;font-weight:bold;font-size:18px;">Date & Time</div>
+        </div>
+        {% for description,date,product_name_value,product_names_values in updates %}
+            <div class="shipment_status" style="display:flex;">
+                <div class="shipment_status_text">{{description}}</div>
+                <div class="shipment_status_logo"></div>
+                <div class="shipment_status_date">{{date}}</div>
+            </div>
+        {% endfor%}
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+//showing the customer product that he buys in the traker page
+
+tracking_container2_length = document.querySelector("#tracking_container2").children.length
+
+//when there is no text in order stataus than show this msg
+if(length == 2){
+    var text=`<p style="color:red;">Please enter tracking id in Tracking Id feild!</p>`
+    document.querySelector("#tracking_container2").children[0].insertAdjacentHTML("afterend",text);
+}
+
+//showing the fontawesome fonts in out tracking page
+for(i=3; i<=tracking_container2_length ; i++){
+
+    shipment_status_text_check = document.querySelector("#tracking_container2").children[i].children[0].innerHTML
+
+    if(shipment_status_text_check.search("place") != -1){
+        var html = `<span>Placed</i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+
+    if(shipment_status_text_check.search("picked") != -1){
+        var html = `<span><i class="fa-solid fa-people-carry-box"></i></i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+    else if(shipment_status_text_check.search("air") != -1){
+        var html = `<span><i class="fa-solid fa-plane"></i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+
+    else if(shipment_status_text_check.search("road") != -1){
+        var html = `<span><i class="fa-solid fa-road"></i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+    else if(shipment_status_text_check.search("arrived") != -1){
+        var html = `<span><i class="fa-solid fa-plane-arrival"></i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+
+    else if(shipment_status_text_check.search("out for delivery") != -1){
+        var html = `<span><i class="fa-solid fa-person-biking"></i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+
+    else if(shipment_status_text_check.search("transit") != -1){
+        var html = `<span><i class="fa-solid fa-truck"></i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+
+    else if(shipment_status_text_check.search("reached") != -1){
+        var html = `<span><i class="fa-solid fa-truck-ramp-couch"></i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+        else if(shipment_status_text_check.search("delivered") != -1){
+        var html = `<span style="color:green;">Delivered</span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+        else if(shipment_status_text_check.search("Delivered") != -1){
+        var html = `<span style="color:green;">Delivered</span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+
+    else{
+        var html = `<span><i class="fa-solid fa-box"></i></span>`
+        document.querySelector("#tracking_container2").children[i].children[1].insertAdjacentHTML("afterbegin",html)
+        document.querySelector(".status_title").style.visibility = "visible";
+}
+
+
+}
+
+{% endblock %}

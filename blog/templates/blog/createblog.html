@@ -1,0 +1,91 @@
+{% extends 'blog/basic.html' %}
+
+{% block title %}Create Blogs{% endblock %}
+
+{% block css%}
+#background_image_blog{
+    background-image:url('/static/blog/education blog.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+     background-size: 100% 100%;
+    height:550px;
+    width:100%;
+    padding:50px;
+    box-sizing:border-box;
+
+}
+#create_blog_container{
+    width:50%;
+    height:450px;
+    margin:auto;
+    padding:15px;
+    background-color:rgba(0,0,0,0.6);
+    box-sizing:border-box;
+    color:white;
+    font-weight:bold;
+    text-align:center;
+    border:2px solid white;
+}
+.create_blog_text{
+    width:100%;
+    margin-top:20px;
+    background-color:black;
+    height:22px;
+    color:white;
+    font-size:15px;
+    border-radius:15px;
+}
+.textarea{
+    margin-top:15px;
+    background-color:rgba(250,250,250,0.2);
+    color:white;
+}
+.create_blog_text::placeholder{
+    color:white;
+}
+
+#create_blog_submit{
+    background-color:brown;
+    color:white;
+    font-weight:bold;
+    height:30px;
+    width:120px;
+    border-radius:5px;
+}
+#create_blog_submit:hover{
+    cursor:pointer;
+    background-color:white;
+    border:3px solid brown;
+    color:brown;
+    font-weight:bold;
+
+    }
+
+{% endblock %}
+
+{% block body %}
+
+
+
+<div id="background_image_blog">
+    <div id="create_blog_container">
+        <h2>Publish your Blog</h2>
+        <form action="/blog/createblog" method="post">{% csrf_token %}
+            <input class="create_blog_text" type="text" name="author_name" placeholder="Blogger Name" required>
+            <input class="create_blog_text" type="email" name="email" placeholder="Blogger Email ID" required>
+            <input class="create_blog_text" type="text" name="title" placeholder="Blog Title" required>
+            <textarea  class="textarea" name="content" rows="6" cols="63" placeholder="Blog Content" required></textarea>
+            <input class="create_blog_text" type="file" name="pic" required>
+            <input class="create_blog_text" id='create_blog_submit' type="submit" value="Publish">
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% if check %}
+alert("Your Blog Successfully Published..")
+document.location = '/blog/content'
+{% endif%}
+{% endblock%}

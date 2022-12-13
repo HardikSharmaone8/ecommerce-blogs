@@ -1,0 +1,125 @@
+{% extends 'blog/basic.html' %}
+
+{% block title %}Blog{% endblock %}
+
+
+{% block css %}
+#no_result{
+    width:80%;
+    height:450px;
+    margin-left:100px;
+    display:none;
+}
+#no_res{
+    display:none;
+}
+      .blog_content_semicontainer{
+        width:80%;
+        margin:auto;
+        margin:50px 0px 100px 135px;
+        height:auto;
+    }
+    .blog_content{
+        height:220px;
+        box-sizing:border-box;
+        padding:10px;
+        width:100%;
+        border-radius:5px;
+        box-shadow:10px 10px 10px black;
+        margin-top:50px;
+    }
+    .blog_content_image{
+        height:200px;
+        width:30%;
+        float:right;
+    }
+    .blog_readmore_button{
+        background-color:brown;
+        color:white;
+        font-weight:bold;
+        box-sizing:border-box;
+        text-align:center;
+        border-radius:5px;
+        height:25px;
+        padding-top:3px;
+        width:10%;
+    }
+.blog_anchor{
+text-decoration:none;
+color:white;
+}
+  .blog_anchor:hover{
+        color:brown;
+}
+    .blog_readmore_button:hover{
+        cursor:pointer;
+        color:brown;
+        background-color:white;
+        border:3px solid brown;
+
+    }
+
+{% endblock%}
+
+{% block body %}
+{% load static %}
+
+{% load static %}
+<img id="no_result" src="{% static 'blog/no_result.png' %}">
+    <center><h1 style="color:brown;" id="no_res">Blog not present in our Database</h1></center>
+
+
+
+<center><h1 id="no_re" style="color:brown;">Search Results</h1></center>
+    <hr>
+
+    <div class="blog_content_semicontainer">
+
+       {% for blog2 in blogDetails %}
+            {% for i in blog2|slice:"0:"%}
+                <div class="blog_content">
+                     <img class="blog_content_image" src ="/media/{{i.BlogImage}}">
+                    <p style="font-size:11px;color:brown;">{{i.BlogDate}} <span style="margin-left:20px;font-size:13px;font-weight:bold;">Article by {{i.BlogAuthor}}</span></p>
+                    <h3 style="margin-top:-5px;" class="check_text">{{i.BlogTitle}}</h3>
+                    <p style="margin-top:-12px;">{{i.BlogDetails|slice:"0:350"}}...</p>
+                    <div  class="blog_readmore_button"><a class="blog_anchor" href="contentdetails/{{i.id}}">Read More</a></div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+
+        {% for blog2 in blogDetails %}
+                 {% for i in blog2|slice:"0:"%}
+                    <div class="blog_content">
+                        <img class="blog_content_image" src ="/media/{{i.Blog_Image}}">
+                        <p style="font-size:11px;color:brown;">{{i.Blog_Date}} <span style="margin-left:20px;font-size:13px;font-weight:bold;">Article by {{i.Author_Name}}</span></p>
+                        <h3 style="margin-top:-5px;" class="check_text">{{i.Blogger_Title}}</h3>
+                        <p style="margin-top:-12px;">{{i.Blogger_Content|slice:"0:350"}}...</p>
+                        <div  class="blog_readmore_button"><a class="blog_anchor" href="userContentDetails/{{i.id}}">Read More</a></div>
+                    </div>
+
+                {% endfor %}
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+var semicontainer = document.querySelector('.blog_content_semicontainer').children.length
+
+for(var i=0; i < semicontainer; i++){
+  var check = document.querySelector('.blog_content_semicontainer').children[i].children[2].innerHTML
+    if(check == ""){
+        document.querySelector('.blog_content_semicontainer').children[i].style.display = 'none'
+    }
+}
+
+<!--when no data searched in blog-->
+{% if check %}
+       document.querySelector("#no_result").style.display = 'block';
+    document.querySelector("#no_res").style.display = 'block';
+    document.querySelector("#no_re").style.display = 'none';
+
+{% endif%}
+{% endblock %}
